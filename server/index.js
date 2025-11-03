@@ -51,10 +51,9 @@ app.get('/api/district/:name/:month/:year', (req, res) => {
   res.json(data);
 });
 
-// ✅ Handle React routing (for single root deployment)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-});
+
+
+
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`🚀 API server running on port ${PORT}`));
