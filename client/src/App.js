@@ -66,7 +66,7 @@ export default function App() {
         <button onClick={handleSearch}>🔍 Search</button>
       </div>
 
-      {loading && <p style={{ textAlign: "center" }}>Fetching data...</p>}
+      {loading && <p style={{ textAlign: "center", color: "#0077cc" }}>Fetching data...</p>}
 
       {data && (
         <div className="data-box">
