@@ -5,24 +5,24 @@ export default function App() {
   const [districts, setDistricts] = useState([]);
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [months] = useState([
-    "Oct 2025", "Sep 2025", "Aug 2025", "Jul 2025", "Jun 2025", 
-    "May 2025", "Apr 2025", "Mar 2025", "Feb 2025", "Jan 2025", 
-    "Dec 2024", "Nov 2024", "Oct 2024", "Sep 2024", "Aug 2024", 
+    "Oct 2025", "Sep 2025", "Aug 2025", "Jul 2025", "Jun 2025",
+    "May 2025", "Apr 2025", "Mar 2025", "Feb 2025", "Jan 2025",
+    "Dec 2024", "Nov 2024", "Oct 2024", "Sep 2024", "Aug 2024",
     "Jul 2024", "Jun 2024", "May 2024", "Apr 2024"
   ]);
   const [selectedMonth, setSelectedMonth] = useState("");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // ✅ Dynamic API base (works both locally & on production)
-  const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:4000";
+  // ✅ Use live backend URL for production
+  const API_BASE = "https://mgnrega-tamil-nadu-dashboard-backend.onrender.com";
 
   useEffect(() => {
     fetch(`${API_BASE}/api/districts`)
       .then(res => res.json())
       .then(d => setDistricts(d.districts || []))
       .catch(err => console.error("Error fetching districts:", err));
-  }, [API_BASE]);
+  }, []);
 
   const handleSearch = () => {
     if (!selectedDistrict || !selectedMonth) {
