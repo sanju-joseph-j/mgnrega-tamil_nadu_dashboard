@@ -12,7 +12,8 @@ app.use(
     origin: [
       'http://localhost:3000', // local React
       'https://mgnrega-tamilnadudashboard.vercel.app/' //vercel url
-  })
+    ],
+    })
 );
 
 app.use(express.json());
