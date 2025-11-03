@@ -13,16 +13,27 @@ export default function App() {
   const [selectedMonth, setSelectedMonth] = useState("");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  // ✅ Use live backend URL for production
-  const API_BASE = "https://mgnrega-tamil-nadu-dashboard-backend.onrender.com";
+  // ✅ Use environment variable for flexibility
+  const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:4000";
 
   useEffect(() => {
+    setLoading(true);
+    setError("");
+
     fetch(`${API_BASE}/api/districts`)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to fetch districts");
+        return res.json();
+      })
       .then(d => setDistricts(d.districts || []))
-      .catch(err => console.error("Error fetching districts:", err));
-  }, []);
+      .catch(err => {
+        console.error("Error fetching districts:", err);
+        setError("Unable to fetch districts. Please try again later.");
+      })
+      .finally(() => setLoading(false));
+  }, [API_BASE]);
 
   const handleSearch = () => {
     if (!selectedDistrict || !selectedMonth) {
@@ -37,10 +48,18 @@ export default function App() {
         : "2024-2025";
 
     setLoading(true);
+    setError("");
+
     fetch(`${API_BASE}/api/district/${selectedDistrict}/${month}/${finYear}`)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to fetch data");
+        return res.json();
+      })
       .then(setData)
-      .catch(err => console.error("Error fetching data:", err))
+      .catch(err => {
+        console.error("Error fetching data:", err);
+        setError("Unable to fetch data for the selected district/month.");
+      })
       .finally(() => setLoading(false));
   };
 
@@ -67,6 +86,11 @@ export default function App() {
       </div>
 
       {loading && <p style={{ textAlign: "center", color: "#0077cc" }}>Fetching data...</p>}
+      {error && <p style={{ textAlign: "center", color: "red" }}>{error}</p>}
+
+      {!loading && districts.length === 0 && !error && (
+        <p style={{ textAlign: "center", color: "gray" }}>No districts found.</p>
+      )}
 
       {data && (
         <div className="data-box">

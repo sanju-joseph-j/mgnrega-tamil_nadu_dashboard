@@ -11,8 +11,10 @@ app.use(
   cors({
     origin: [
       'http://localhost:3000', // local React
-      'https://mgnrega-tamilnadudashboard.vercel.app/' //vercel url
+      'https://mgnrega-tamilnadudashboard.vercel.app' //vercel url
     ],
+    methods: ['GET', 'POST'],
+    optionsSuccessStatus: 200
     })
 );
 
@@ -49,11 +51,6 @@ app.get('/api/district/:name/:month/:year', (req, res) => {
 
   const data = JSON.parse(row.raw_json);
   res.json(data);
-});
-
-// ✅ Handle React routing (for single root deployment)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
 });
 
 const PORT = process.env.PORT || 4000;
