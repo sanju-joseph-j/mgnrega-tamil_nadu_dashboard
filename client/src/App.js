@@ -14,6 +14,7 @@ export default function App() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [noRecord, setNoRecord] = useState(false); // 🆕 Boolean flag
 
   // ✅ Use environment variable for flexibility
   const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:4000";
@@ -49,24 +50,29 @@ export default function App() {
 
     setLoading(true);
     setError("");
+    setNoRecord(false);
+    setData(null); // clear previous data
 
     fetch(`${API_BASE}/api/district/${selectedDistrict}/${month}/${finYear}`)
       .then(res => {
-        if (!res.ok) throw new Error("Failed to fetch data");
+        if (!res.ok) throw new Error("No record found");
         return res.json();
       })
-      .then(setData)
-      .catch(err => {
-        console.error("Error fetching data:", err);
-        setError("Unable to fetch data for the selected district/month.");
+      .then(json => {
+        if (!json || Object.keys(json).length === 0) {
+          setNoRecord(true);
+        } else {
+          setData(json);
+        }
+      })
+      .catch(() => {
+        setNoRecord(true);
       })
       .finally(() => setLoading(false));
   };
 
   return (
     <div className="app-container">
-      <h2>🌾 MGNREGA — Tamil Nadu Dashboard</h2>
-
       <div className="filters">
         <select value={selectedDistrict} onChange={e => setSelectedDistrict(e.target.value)}>
           <option value="">Select District</option>
@@ -84,25 +90,37 @@ export default function App() {
 
         <button onClick={handleSearch}>🔍 Search</button>
       </div>
-
-      {loading && <p style={{ textAlign: "center", color: "#0077cc" }}>Fetching data...</p>}
-      {error && <p style={{ textAlign: "center", color: "red" }}>{error}</p>}
+      
+      {loading && <p className="status-message loading">Fetching data...</p>}
+      {error && <p className="status-message error">{error}</p>}
 
       {!loading && districts.length === 0 && !error && (
-        <p style={{ textAlign: "center", color: "gray" }}>No districts found.</p>
+        <p style={{ textAlign: "center", color: "gray", marginTop:"35%" }}>No districts found.</p>
       )}
 
-      {data && (
+      {/* 🧩 Show table box for both data and "no record" cases */}
+      {(data || noRecord) && (
         <div className="data-box">
-          <h3>📍 {data.district_name} — {data.month} ({data.fin_year})</h3>
+          <h3>
+            📍 {selectedDistrict} — {selectedMonth.split(" ")[0]} ({data?.fin_year || "2024-2025"})
+          </h3>
+
           <table>
             <tbody>
-              {Object.entries(data).map(([key, value]) => (
-                <tr key={key}>
-                  <td>{key}</td>
-                  <td>{value}</td>
+              {noRecord ? (
+                <tr>
+                  <td colSpan="2" style={{ textAlign: "center", fontSize: "1.3rem", color: "crimson", padding: "100px" }}>
+                    ❌ No Record Found
+                  </td>
                 </tr>
-              ))}
+              ) : (
+                Object.entries(data).map(([key, value]) => (
+                  <tr key={key}>
+                    <td>{key}</td>
+                    <td>{value}</td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

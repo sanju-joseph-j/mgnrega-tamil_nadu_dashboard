@@ -2,11 +2,11 @@
    GLOBAL BACKGROUND SETTINGS
    ============================ */
 html, body {
-  height: 250px;
+  height: 100vh;
   margin: 0;
-  background: url("../public/tamilnadu.jpg") no-repeat center center fixed;
+  background: url("../public/tamilnadu.png") no-repeat center center fixed;
   background-size: cover;
-  background-position: center -175px;
+  background-position: center 0px;
   font-family: Arial, sans-serif;
 }
 
@@ -23,28 +23,31 @@ html, body {
 } 
 
 /* ============================
-   HEADER SECTION
-   ============================ */
-h2 {
-  text-align: left;
-  color: #0077cc;
-  font-size: 26px;
-  margin-bottom: 25px;
-}
-
-/* ============================
    SELECTORS AND BUTTONS
    ============================ */
+.filters {
+  position: fixed;
+  top: 111px;              /* Distance from top of the page */
+  left: 37.75%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  padding: 12px 18px;
+  border-radius: 10px;
+  z-index: 1000;          /* Keep it above all elements */
+}
+
 select, button {
   font-size: 16px;
   padding: 10px 12px;
   border-radius: 8px;
   border: 1px solid #bbb;
-  margin: 8px;
   min-width: 180px;
   cursor: pointer;
   transition: all 0.3s ease;
+  margin-top: -1px;              /* Remove extra margins to align neatly */
 }
+
 
 select:hover, button:hover {
   background-color: #f0f8ff;
@@ -55,22 +58,66 @@ select:hover, button:hover {
 button {
   background-color: #0077cc;
   color: white;
-  border: none;
+  border: 1px solid black;
 }
 
 button:hover {
   background-color: #005fa3;
 }
 
+  /* ============================
+   STATUS MESSAGES (Loading & Error)
+   ============================ */
+.status-message {
+  /* text-align: center; */
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: 8.5%;
+  margin-left: 48.5%;
+  transform: translateX(-50%);
+  position: fixed;
+  z-index: 1200;
+}
+
+/* Loading message (blue text) */
+.status-message.loading {
+  color: #0077cc;
+  animation: blink 1.2s infinite ease-in-out;
+}
+
+/* Error message (red text) */
+.status-message.error {
+  color: #d32f2f;
+  background: rgba(255, 230, 230, 0.9);
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+/* Simple blinking animation for loading text */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
 /* ============================
    DATA DISPLAY AREA
    ============================ */
 .data-box {
+  position: fixed;                /* Fix it in place */
+  top: 191px;
+  bottom: 10px;                     /* Below the filters */
+  left: 50%;
+  transform: translateX(-50%);
   background: white;
-  border-radius: 10px;
+  border-radius: 20px;
+  border: 1px solid #bbb;
   padding: 20px;
-  margin-top: 30px;
+  width: 65%;                     /* Adjust width as needed */
+  height: 47.5vh;                   /* Set fixed height for scrolling */
+  overflow-y: auto;               /* Enable vertical scrolling inside */
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  z-index: 900;                   /* Keep below filter bar */
 }
 
 .data-box h3 {
@@ -105,20 +152,82 @@ td:first-child {
 }
 
 /* ============================
-   ANIMATIONS
-   ============================ */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* ============================
    MOBILE RESPONSIVENESS
    ============================ */
 @media (max-width: 600px) {
-  select, button {
+
+html, body {
+  height: 100vh;
+  margin: 0;
+  background: url("../public/tamilnadu2.png") no-repeat center center fixed;
+  background-size: cover;
+  background-position: center 0px;
+  font-family: Arial, sans-serif;
+}
+
+/* Filters and buttons stacked vertically */
+  .filters {
+    top: 45px;
+    left: 30%;
+    transform: translateX(-50%);
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    /* background: rgba(255, 255, 255, 0.9); */
+    /* box-shadow: 0 0 8px rgba(0, 0, 0, 0.15); */
+  }
+
+  select,
+  button {
+    font-size: 12px;
+    min-width: 175px;
+    padding: 8px 10px;
+    margin-top: 0;
+  }
+
+  button {
     width: 100%;
-    margin: 5px 0;
+  }
+
+  .status-message {
+  /* text-align: center; */
+  font-size: 12.5px;
+  font-weight: 500;
+  margin-top: 38%;
+  margin-left: 65%;
+  transform: translateX(-50%);
+  position: fixed;
+  z-index: 1200;
+}
+
+  /* Data Box adjustments */
+  .data-box {
+    top: 180px;
+    width: 90%;
+    height: 50vh;
+    padding: 15px;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+
+  .data-box h3 {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  table {
+    font-size: 13px;
+  }
+
+  td,
+  th {
+    padding: 6px;
+  }
+
+  /* Make sure body allows scrolling when content is tall */
+  body {
+    overflow-y: auto;
   }
 
   .app-container {
