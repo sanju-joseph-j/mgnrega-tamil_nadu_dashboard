@@ -167,7 +167,7 @@ html, body {
 
 /* Filters and buttons stacked vertically */
   .filters {
-    top: 45px;
+    top: 50px;
     left: 30%;
     transform: translateX(-50%);
     flex-direction: column;
@@ -194,8 +194,8 @@ html, body {
   /* text-align: center; */
   font-size: 12.5px;
   font-weight: 500;
-  margin-top: 38%;
-  margin-left: 65%;
+  margin-top: 45%;
+  margin-left: 25%;
   transform: translateX(-50%);
   position: fixed;
   z-index: 1200;
@@ -203,7 +203,7 @@ html, body {
 
   /* Data Box adjustments */
   .data-box {
-    top: 180px;
+    top: 200px;
     width: 90%;
     height: 50vh;
     padding: 15px;
