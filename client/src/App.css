@@ -167,7 +167,7 @@ html, body {
 
 /* Filters and buttons stacked vertically */
   .filters {
-    top: 50px;
+    top: 60px;
     left: 30%;
     transform: translateX(-50%);
     flex-direction: column;
@@ -203,9 +203,9 @@ html, body {
 
   /* Data Box adjustments */
   .data-box {
-    top: 200px;
+    top: 225px;
     width: 90%;
-    height: 50vh;
+    height: 55vh;
     padding: 15px;
     font-size: 14px;
     border-radius: 10px;
