@@ -194,7 +194,7 @@ html, body {
   /* text-align: center; */
   font-size: 12.5px;
   font-weight: 500;
-  margin-top: 45%;
+  margin-top: 47.5%;
   margin-left: 25%;
   transform: translateX(-50%);
   position: fixed;
@@ -205,7 +205,7 @@ html, body {
   .data-box {
     top: 225px;
     width: 90%;
-    height: 55vh;
+    height: 50vh;
     padding: 15px;
     font-size: 14px;
     border-radius: 10px;
